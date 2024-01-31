@@ -21,18 +21,18 @@ import java.util.Objects;
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
-    private String id;
-    private String username;
+    private String userId;
+    private String name;
     private String email;
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(
-            String id, String username, String email, String password,
+            String userId, String username, String email, String password,
             List<GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
+        this.userId = userId;
+        this.name = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -40,7 +40,7 @@ public class UserDetailsImpl implements UserDetails {
         logUserDetailsCreation();
     }
     private void logUserDetailsCreation() {
-        log.info("UserDetails created for user: {}", username);
+        log.info("UserDetails created for user: {}", name);
         log.debug("UserDetails: {}", this);
     }
 
@@ -71,8 +71,8 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
     public String getEmail() {
@@ -86,7 +86,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return name;
     }
 
     @Override
@@ -116,14 +116,14 @@ public class UserDetailsImpl implements UserDetails {
         if (obj == null || getClass() != obj.getClass())
             return false;
         UserDetailsImpl user = (UserDetailsImpl) obj;
-        return Objects.equals(id, user.id);
+        return Objects.equals(userId, user.userId);
     }
 
     @Override
     public String toString() {
         return "UserDetailsImpl{" +
-                "id='" + id + '\'' +
-                ", username='" + username + '\'' +
+                "id='" + userId + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", authorities=" + authorities +
                 '}';

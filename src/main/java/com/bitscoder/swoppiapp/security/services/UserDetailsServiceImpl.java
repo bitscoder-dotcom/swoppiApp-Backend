@@ -34,10 +34,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElse(null);
 
         if (customer != null) {
-            log.info("Found SuperAdmin user: {}", username);
+            log.info("Found VENDOR user: {}", username);
             return UserDetailsImpl.build(customer);
         } else {
-            log.info("SuperAdmin not found. Checking for ClientAdmin: {}", username);
+            log.info("CUSTOMER not found. Checking for CUSTOMER: {}", username);
         }
 
         Vendor client = vendorRepository.findVendorByEmail(username)
@@ -54,9 +54,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         if (user instanceof Customer) {
-            authorities.add(new SimpleGrantedAuthority("SUPER_ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("CUSTOMER"));
         } else if (user instanceof Vendor) {
-            authorities.add(new SimpleGrantedAuthority("CLIENT_ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("VENDOR"));
         }
         log.info("Building UserDetails for user: {}", user.getName());
         return new UserDetailsImpl(

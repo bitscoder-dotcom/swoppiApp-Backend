@@ -11,14 +11,19 @@ import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Component
 @Slf4j
+@DependsOn("secretKeyGenerator")
 public class JwtUtils {
 
     @Value("${swoppiApp.jwtExpirationMs}")
@@ -77,5 +82,11 @@ public class JwtUtils {
 
     public int getJwtExpirationMs() {
         return jwtExpirationMs;
+    }
+
+    public LocalDateTime getJwtExpirationDate() {
+        return Instant.ofEpochMilli((new Date()).getTime() + getJwtExpirationMs())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 }

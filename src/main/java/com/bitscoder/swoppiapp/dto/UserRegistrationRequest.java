@@ -3,10 +3,7 @@ package com.bitscoder.swoppiapp.dto;
 import com.bitscoder.swoppiapp.enums.UserTypes;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,7 +11,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class UserRegistrationRequest {
 
     private String name;
@@ -23,7 +21,8 @@ public class UserRegistrationRequest {
     private String password;
     private UserTypes userType;
 
-    @Data
+    @Getter
+    @Setter
     @Builder
     @NoArgsConstructor
     public static class Response<T> {

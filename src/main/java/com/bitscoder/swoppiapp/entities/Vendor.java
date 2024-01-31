@@ -6,7 +6,6 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class Vendor extends BaseUser{
