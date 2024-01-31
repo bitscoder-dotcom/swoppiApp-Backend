@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/swoppiApp/v1")
+@RequestMapping("/swoppiApp/v1/auth")
 public class AuthController {
 
     private AuthService authService;

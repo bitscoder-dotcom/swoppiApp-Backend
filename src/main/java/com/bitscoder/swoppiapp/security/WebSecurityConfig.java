@@ -81,7 +81,7 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/swoppiApp-api/auth/**").permitAll()
+                .requestMatchers("/swoppiApp/v1/auth/**").permitAll()
 
                 .anyRequest().authenticated()
                 .and()
