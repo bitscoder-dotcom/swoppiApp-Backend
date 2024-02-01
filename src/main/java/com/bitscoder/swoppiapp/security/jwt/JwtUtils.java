@@ -16,6 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -29,13 +32,19 @@ public class JwtUtils {
     @Value("${swoppiApp.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    @Value("${swoppiApp.jwtSecretKey}")
-    private String jwtSecretKey;
+//    @Value("${swoppiApp.filepath}")
+    private String jwtSecretKeyFilepath = "src/main/java/keys/jwtSecretKey.file";
 
     private SecretKey key;
 
+//    @PostConstruct
+//    public void init() {
+//        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecretKey));
+//    }
     @PostConstruct
-    public void init() {
+    public void init() throws IOException {
+        String jwtSecretKey = new String(Files.readAllBytes(Paths.get(jwtSecretKeyFilepath)));
+        jwtSecretKey = jwtSecretKey.substring(jwtSecretKey.indexOf('=') + 1).trim();
         this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecretKey));
     }
 
