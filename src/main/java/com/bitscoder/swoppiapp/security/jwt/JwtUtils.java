@@ -26,27 +26,30 @@ import java.util.Date;
 
 @Component
 @Slf4j
-@DependsOn("secretKeyGenerator")
+//@DependsOn("secretKeyGenerator")
 public class JwtUtils {
 
     @Value("${swoppiApp.jwtExpirationMs}")
     private int jwtExpirationMs;
 
 //    @Value("${swoppiApp.filepath}")
-    private String jwtSecretKeyFilepath = "src/main/java/keys/jwtSecretKey.file";
+//    private String jwtSecretKeyFilepath = "src/main/java/keys/jwtSecretKey.file";
 
+    @Value("${swoppiApp.jwtSecretKey}")
+    private String jwtSecretKey;
     private SecretKey key;
 
-//    @PostConstruct
-//    public void init() {
-//        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecretKey));
-//    }
     @PostConstruct
-    public void init() throws IOException {
-        String jwtSecretKey = new String(Files.readAllBytes(Paths.get(jwtSecretKeyFilepath)));
-        jwtSecretKey = jwtSecretKey.substring(jwtSecretKey.indexOf('=') + 1).trim();
+    public void init() {
         this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecretKey));
     }
+
+//    @PostConstruct
+//    public void init() throws IOException {
+//        String jwtSecretKey = new String(Files.readAllBytes(Paths.get(jwtSecretKeyFilepath)));
+//        jwtSecretKey = jwtSecretKey.substring(jwtSecretKey.indexOf('=') + 1).trim();
+//        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecretKey));
+//    }
 
 //    private SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
