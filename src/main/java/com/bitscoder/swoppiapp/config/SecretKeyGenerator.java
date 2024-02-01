@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
-@Component("secretKeyGenerator")
+//@Component("secretKeyGenerator")
 public class SecretKeyGenerator {
 
     @Value("${jwtSecretKey.filepath}")
