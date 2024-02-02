@@ -29,19 +29,15 @@ public class UserDetailsImpl implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(
-            String userId, String username, String email, String password,
+            String userId, String email, String password,
             List<GrantedAuthority> authorities) {
         this.userId = userId;
-        this.name = username;
+        this.name = email;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
 
         logUserDetailsCreation();
-    }
-    private void logUserDetailsCreation() {
-        log.info("UserDetails created for user: {}", name);
-        log.debug("UserDetails: {}", this);
     }
 
     public static UserDetailsImpl build(BaseUser user) {
@@ -55,7 +51,6 @@ public class UserDetailsImpl implements UserDetails {
 
         UserDetailsImpl userDetails = new UserDetailsImpl(
                 user.getUserId(),
-                user.getName(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities
@@ -64,6 +59,11 @@ public class UserDetailsImpl implements UserDetails {
         log.debug("UserDetailsImpl: {}", userDetails);
 
         return userDetails;
+    }
+
+    private void logUserDetailsCreation() {
+        log.info("UserDetails created for user: {}", name);
+        log.debug("UserDetails: {}", this);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return email;
     }
 
     @Override

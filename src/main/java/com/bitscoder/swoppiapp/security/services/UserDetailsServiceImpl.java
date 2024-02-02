@@ -28,26 +28,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("Trying to get user by username");
-        Customer customer = customerRepository.findCustomerByEmail(username)
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        log.info("Trying to get user by email");
+        Customer customer = customerRepository.findCustomerByEmail(email)
                 .orElse(null);
 
         if (customer != null) {
-            log.info("Found VENDOR user: {}", username);
+            log.info("Found CUSTOMER user: {}", email);
             return UserDetailsImpl.build(customer);
         } else {
-            log.info("CUSTOMER not found. Checking for CUSTOMER: {}", username);
+            log.info("CUSTOMER not found. Checking for VENDOR: {}", email);
         }
 
-        Vendor client = vendorRepository.findVendorByEmail(username)
+        Vendor vendor = vendorRepository.findVendorByEmail(email)
                 .orElseThrow(() -> {
-                    log.error("User not found with username: {}", username);
-                    return new UsernameNotFoundException("User not found with username: " + username);
+                    log.error("Vendor not found with email: {}", email);
+                    return new UsernameNotFoundException("Vendor not found with email: " + email);
                 });
 
-        log.info("Found ClientAdmin user: {}", username);
-        return buildUserDetails(client);
+        log.info("Found VENDOR user: {}", email);
+        return buildUserDetails(vendor);
     }
 
     private UserDetails buildUserDetails(BaseUser user) {
@@ -61,7 +61,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         log.info("Building UserDetails for user: {}", user.getName());
         return new UserDetailsImpl(
                 user.getUserId(),
-                user.getName(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities

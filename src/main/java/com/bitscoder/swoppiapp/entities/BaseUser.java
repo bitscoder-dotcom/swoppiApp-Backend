@@ -35,6 +35,6 @@ public abstract class BaseUser implements Serializable {
     }
 
     private String generateCustomUUID() {
-        return "TLM"+ UUID.randomUUID().toString().substring(0, 5);
+        return "swoppiUser"+ UUID.randomUUID().toString().substring(0, 5);
     }
 }
