@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -54,6 +56,28 @@ public class CategoryService {
         } catch (Exception e) {
             log.error("Error creating category", e);
             throw new RuntimeException("Error creating category", e);
+        }
+    }
+
+    public ResponseEntity<ApiResponse<List<CategoryDto.Response>>> getAllCategories() {
+        try {
+            List<Category> categories = categoryRepository.findAll();
+            List<CategoryDto.Response> categoryResponses = categories.stream()
+                    .map(this::convertEntityToDto)
+                    .collect(Collectors.toList());
+
+            ApiResponse<List<CategoryDto.Response>> apiResponse = new ApiResponse<>(
+                    LocalDateTime.now(),
+                    UUID.randomUUID().toString(),
+                    true,
+                    "Categories retrieved successfully",
+                    categoryResponses
+            );
+
+            return ResponseEntity.ok(apiResponse);
+        } catch (Exception e) {
+            log.error("Error retrieving categories", e);
+            throw new RuntimeException("Error retrieving categories", e);
         }
     }
 
